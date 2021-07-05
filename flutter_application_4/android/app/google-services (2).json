@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "794080830902",
+    "project_id": "fauth-cd4ea",
+    "storage_bucket": "fauth-cd4ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794080830902:android:63599a1a868c40a3da4d17",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794080830902-vqe89oj35p1svdoiua0fm12kqa7r5gq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLQBusSDQ8NUTCxXFwROjVemvNev4hBrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794080830902-vqe89oj35p1svdoiua0fm12kqa7r5gq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
