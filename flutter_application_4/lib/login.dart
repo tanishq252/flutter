@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
 
+class Test {}
+
 class Login extends StatelessWidget {
   static const routeName = '/login';
   @override
@@ -30,6 +32,14 @@ class H extends StatelessWidget {
       body: FutureBuilder(
         future: _firebaseApp,
         builder: (context, snapshot) {
+          var outlineInputBorder = OutlineInputBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(120.0),
+              bottomRight: Radius.circular(120.0),
+              topLeft: Radius.circular(120.0),
+              topRight: Radius.circular(120.0),
+            ),
+          );
           return Scaffold(
             body: ListView(
               children: [
@@ -45,13 +55,27 @@ class H extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                  child: Icon(
+                    Icons.account_circle_rounded,
+                    size: 200,
+                  ),
+                ),
+                Container(
                   margin: const EdgeInsets.all(15),
                   child: TextField(
                       controller: email,
                       autofocus: true,
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.email_outlined),
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(120.0),
+                              bottomRight: Radius.circular(120.0),
+                              topLeft: Radius.circular(120.0),
+                              topRight: Radius.circular(120.0),
+                            ),
+                          ),
                           hintText: "Enter Your Email",
                           labelText: "Email")),
                 ),
@@ -63,7 +87,7 @@ class H extends StatelessWidget {
                       autofocus: true,
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.lock),
-                          border: OutlineInputBorder(),
+                          border: outlineInputBorder,
                           hintText: "Enter Your Password",
                           labelText: "Password")),
                 ),
@@ -72,11 +96,21 @@ class H extends StatelessWidget {
                   child: SizedBox(
                     height: 60,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.greenAccent,
-                        textStyle: TextStyle(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.greenAccent),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                      side: BorderSide(
+                                          color: Colors.greenAccent,
+                                          width: 2.0)))),
+                      child: Text(
+                        'Log In',
+                        style: TextStyle(
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
                         ),
                       ),
                       onPressed: () async {
@@ -90,23 +124,22 @@ class H extends StatelessWidget {
                                 .signInWithEmailAndPassword(
                                     email: email.text, password: password.text)
                                 .then((value) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => new Home()));
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()));
                             });
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(e.toString()),
                             ));
                           }
-                          // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
                         }
                       },
-                      child: const Text('Log In'),
                     ),
                   ),
                 ),
+                
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                   child: Container(
@@ -121,10 +154,10 @@ class H extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 new MaterialPageRoute(
-                                    builder: (context) => new MyApp()));
+                                    builder: (context) => new Signup()));
                           },
                           child: Text(
                             "   Signup",

@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_application_4">
    <application
-        android:label="flutter_application_4"
-        android:icon="@mipmap/ic_launcher">
+        android:label="My Recipe App"
+        android:icon="@mipmap/c">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

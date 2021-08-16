@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_4/home.dart';
+import 'package:flutter_application_4/rec.dart';
 import 'package:flutter_application_4/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,11 +9,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  check();
+}
+
+void check() {
+  var _user = FirebaseAuth.instance.currentUser;
+  (_user != null) ? runApp(Home()) : runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,12 +26,14 @@ class MyApp extends StatelessWidget {
         Signup.routeName: (ctx) => Signup(),
         Login.routeName: (ctx) => Login(),
         Home.routeName: (ctx) => Home(),
+        Rec.routeName: (ctx) => Rec(),
       },
-      home: Signup(),
+      home: Login(),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'My Recipe',
       theme: ThemeData(
         brightness: Brightness.dark,
+        backgroundColor: Colors.black12,
         primaryColor: Colors.cyanAccent,
       ),
     );
@@ -74,7 +82,14 @@ class Signup extends StatelessWidget {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.person),
                             labelText: 'Name',
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(120.0),
+                                bottomRight: Radius.circular(120.0),
+                                topLeft: Radius.circular(120.0),
+                                topRight: Radius.circular(120.0),
+                              ),
+                            ),
                             hintText: "Enter Your Name",
                           )),
                     ],
@@ -90,7 +105,14 @@ class Signup extends StatelessWidget {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.home_rounded),
                             labelText: 'City',
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(120.0),
+                                bottomRight: Radius.circular(120.0),
+                                topLeft: Radius.circular(120.0),
+                                topRight: Radius.circular(120.0),
+                              ),
+                            ),
                             hintText: "Enter Your City",
                           )),
                     ],
@@ -107,7 +129,14 @@ class Signup extends StatelessWidget {
                             prefixIcon: Icon(Icons.email_rounded),
                             labelText: 'Email',
                             hintText: "Enter Your Password",
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(120.0),
+                                bottomRight: Radius.circular(120.0),
+                                topLeft: Radius.circular(120.0),
+                                topRight: Radius.circular(120.0),
+                              ),
+                            ),
                             //hintText: "Enter Your Email",
                           )),
                     ],
@@ -124,7 +153,14 @@ class Signup extends StatelessWidget {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.lock_rounded),
                             labelText: 'Password',
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(120.0),
+                                bottomRight: Radius.circular(120.0),
+                                topLeft: Radius.circular(120.0),
+                                topRight: Radius.circular(120.0),
+                              ),
+                            ),
                             hintText: "Enter Your Password",
                           )),
                     ],
@@ -136,11 +172,21 @@ class Signup extends StatelessWidget {
                     width: 150,
                     height: 60,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.greenAccent,
-                        textStyle: TextStyle(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.greenAccent),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                      side: BorderSide(
+                                          color: Colors.greenAccent,
+                                          width: 2.0)))),
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
                         ),
                       ),
                       onPressed: () async {
@@ -158,7 +204,7 @@ class Signup extends StatelessWidget {
                                   FirebaseAuth.instance.currentUser;
                               await users
                                   .doc(firebaseUser
-                                      .email) //Using the set Method instead of the add method to give the document a unique name same as the UID of the current user
+                                      .uid) //Using the set Method instead of the add method to give the document a unique name same as the UID of the current user
                                   .set({
                                 //This will simply add the data to the database in the document with the unique document name as the UID of the user
                                 'email': email
@@ -168,8 +214,11 @@ class Signup extends StatelessWidget {
 
                                 'City': city.text
                               });
-                              Navigator.of(context).pushReplacementNamed(Login
-                                  .routeName); //Navigating to the UserDetails Page
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) =>
+                                          new Login())); //Navigating to the UserDetails Page
                             });
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -178,7 +227,6 @@ class Signup extends StatelessWidget {
                           }
                         }
                       },
-                      child: const Text('Sign up'),
                     ),
                   ),
                 ),
@@ -196,8 +244,10 @@ class Signup extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(Login.routeName);
+                            Navigator.pushReplacement(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => new Login()));
                           },
                           child: Text(
                             "  Login",
